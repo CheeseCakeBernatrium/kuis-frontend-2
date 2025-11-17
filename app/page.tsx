@@ -55,8 +55,8 @@ export default function Home() {
               <th>Title</th>
               <th>Notation</th>
               <th>Date</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody style={{textAlign: "center"}}>
