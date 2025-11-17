@@ -1,0 +1,16 @@
+.buttonPrimary{
+    background-color: #912332;
+    padding: 10px, 20px;
+    border-radius: 20px;
+    color: white;
+    box-shadow: 0px 4px 0px #821c4c;
+    text-shadow: 0px 1px 0px #e6dddd;
+    width: 200px;
+    height: 55px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}

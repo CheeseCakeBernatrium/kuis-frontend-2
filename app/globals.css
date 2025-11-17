@@ -40,3 +40,21 @@ a {
     color-scheme: dark;
   }
 }
+
+.buttonSection {
+  padding: 10px 20px;
+  display: block;
+  height: 100px;
+  cursor: pointer;
+  font-size: 16px;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0px 10px 0px var(--darkorange);
+}
+
+.tableSection{
+  padding: 10px 20px;
+  margin: 40px;
+}
