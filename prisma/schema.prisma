@@ -3,10 +3,17 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
 }
 
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+// Model
+model Combo {
+  id       Int      @id @default(autoincrement())
+  name     String
+  notation String
+  date     String
 }
