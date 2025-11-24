@@ -1,44 +1,25 @@
-'use client';
-
-import Image from "next/image";
-import styles from "./page.module.css";
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Button from "../components/button";
+import prisma from "@/lib/prisma";
+import DeleteComboButton from "../components/delete-combo-button";
 
-type Combo = {
-  id: number;
-  title: string;
-  notation: string;
-  date: string;
-};
-
-export default function Home() {
-  const [combos, setCombos] = useState<Combo[]>([]);
-
-  const loadCombos = () => {
-    const saved = localStorage.getItem("combos");
-    if (saved) {
-      setCombos(JSON.parse(saved));
-    }
-    else {
-      setCombos([]);
-    }
+export default async function Home() {
+  type Combo = {
+    id: number;
+    name: string;
+    notation: string;
+    date: string;
   };
 
-  const handleDelete = (id: number) => {
-    const filteredCombos = combos.filter((combo) => combo.id !== id);
-    setCombos(filteredCombos);
-    localStorage.setItem("combos", JSON.stringify(filteredCombos));
-  }
-
-  useEffect(() => {
-    loadCombos();
-  }, []);
+  const combos = await prisma.combo.findMany({
+    orderBy: {
+      id: 'desc',
+    },
+  }) as Combo[];
 
   return (
     <main>
-      <div style={{textAlign: "center", marginTop: "5%"}}>
+      <div style={{ textAlign: "center", marginTop: "5%" }}>
         <h1>Martin Cahyadi</h1>
         <h2>535240069</h2>
         <p>Combo List</p>
@@ -48,29 +29,29 @@ export default function Home() {
         <Link href="/explore"><Button text="Cool Fighting Games" /></Link>
       </div>
       <div className="tableSection">
-        {combos.length === 0 ? (<p>No Combos Yet.</p>):
+        {combos.length === 0 ? (<p>No Combos Yet.</p>) :
           <table className="table table-striped">
-          <thead style={{textAlign: "center"}}>
-            <tr>
-              <th>Title</th>
-              <th>Notation</th>
-              <th>Date</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody style={{textAlign: "center"}}>
-            {combos.map((combo) => (
-              <tr key={combo.id}>
-                <th>{combo.title}</th>
-                <th>{combo.notation}</th>
-                <th>{combo.date}</th>
-                <th><Link href={`/edit/${combo.id}`}><Button text="Edit" /></Link></th>
-                <th onClick={() => handleDelete(combo.id)}><Button text="Delete" /></th>
+            <thead style={{ textAlign: "center" }}>
+              <tr>
+                <th>Title</th>
+                <th>Notation</th>
+                <th>Date</th>
+                <th></th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>}
+            </thead>
+            <tbody style={{ textAlign: "center" }}>
+              {combos.map((combo) => (
+                <tr key={combo.id}>
+                  <th>{combo.name}</th>
+                  <th>{combo.notation}</th>
+                  <th>{combo.date}</th>
+                  <th><Link href={`/edit/${combo.id}`}><Button text="Edit" /></Link></th>
+                  <th><DeleteComboButton id={combo.id} /></th>
+                </tr>
+              ))}
+            </tbody>
+          </table>}
       </div>
     </main>
   );
