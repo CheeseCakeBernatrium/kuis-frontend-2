@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 const API_KEY = "e6b21abab573401c97a0fc01e9343103";
 
 type Game = {
