@@ -2,21 +2,38 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createCombo } from "../actions";
+
+type Combo = {
+    id: number;
+    title: string;
+    notation: string;
+    date: string;
+};
 
 export default function CreateCombo() {
-    const [name, setName] = useState("");
+    const [title, setTitle] = useState("");
     const [notation, setNotation] = useState("");
     const router = useRouter();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!notation.trim())
             return alert("Notation is required!");
-        if (!name.trim())
-            return setName("Untitled Combo");
+        if (!title.trim())
+            return setTitle("Untitled Combo");
 
-        await createCombo(name, notation);
+        const newCombo: Combo = {
+            id: Date.now(),
+            title, 
+            notation, 
+            date: new Date().toLocaleDateString("en-GB"),
+        }
+
+        const saved = localStorage.getItem("combos");
+        const combos = saved ? JSON.parse(saved) : [];
+        combos.push(newCombo);
+        localStorage.setItem("combos", JSON.stringify(combos));
+
         router.push("/");
     };
 
@@ -27,8 +44,8 @@ export default function CreateCombo() {
                 <div>
                     <label>Title</label>
                     <input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                         placeholder="Combo Title"
                     />
                 </div>
